@@ -10,3 +10,11 @@ if ( !defined( 'ABSPATH' ) ) {
 }
 
 require_once( 'config.php' );
+
+require_once( 'includes/index.php' );
+
+echo '<pre>';
+print_r( duda()->getTemplates() );
+echo '</pre>';
+
+exit;
