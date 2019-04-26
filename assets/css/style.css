@@ -8,12 +8,12 @@
   visibility: hidden;
   opacity: 0;
   background-color: rgba(0,0,0,0.75);
-  top: 40%;
+  top: 20%;
   transition: all .3s ease;
 }
 
 .duda-sso-container .card-thumbnail a:last-child {
-  top: 60%;
+  top: 40%;
 }
 
 .duda-sso-container .card-thumbnail:hover a {
