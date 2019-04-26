@@ -4,3 +4,13 @@ require_once( 'duda.php' );
 function duda() {
   return Duda::getInstance();
 }
+
+if ( isset( $_GET['action'] ) ) {
+  switch( $_GET['action'] ) {
+    case 'duda_tpl_select':
+      if ( isset( $_GET['id'] ) && !empty( $_GET['id']) )
+        duda()->selectTemplate( $_GET['id'] );
+      break;
+    
+  }
+}

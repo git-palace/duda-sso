@@ -1,0 +1,22 @@
+.duda-sso-container .card-thumbnail a {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  color: #fff;
+  font-size: 2em;
+  visibility: hidden;
+  opacity: 0;
+  background-color: rgba(0,0,0,0.75);
+  top: 40%;
+  transition: all .3s ease;
+}
+
+.duda-sso-container .card-thumbnail a:last-child {
+  top: 60%;
+}
+
+.duda-sso-container .card-thumbnail:hover a {
+  visibility: visible;
+  opacity: 1;
+}
