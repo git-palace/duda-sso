@@ -32,8 +32,6 @@ class Duda {
     return json_decode( $response, true );
   }
 
-  // get API
-
   static function getInstance() {
     if ( is_null( self::$instance ) ) {
       self::$instance = new Duda();
@@ -44,6 +42,32 @@ class Duda {
 
   // constructor
   function __construct() {
+    add_action( 'woocommerce_subscription_payment_complete', [$this, 'duda_subscription_complete'], 10, 1 );
+    add_action( 'woocommerce_subscription_renewal_payment_complete', [$this, 'duda_subscription_complete'], 10, 1 );
+
+    add_action( 'woocommerce_subscription_payment_failed', [$this, 'duda_subscription_failed'], 10, 1 );
+    add_action( 'woocommerce_subscription_renewal_payment_failed', [$this, 'duda_subscription_failed'], 10, 1 );
+  }
+
+  function duda_subscription_complete( $subscription ) {
+    echo "renewal is completed";
+
+    $site_name = $subscription->get_meta( 'site_name' );
+    $user_email = $subscription->get_billing_email();
+
+    $this->createCustomerAcct( $site_name, $user_email, true );
+  }
+
+  function duda_subscription_failed( $subscription ) {
+    if ( is_int( $subscription ) )
+      $subscription = wc_get_order( $subscription );
+    
+    echo "renewal is failed";
+
+    $site_name = $subscription->get_meta( 'site_name' );
+    $user_email = $subscription->get_billing_email();
+
+    $this->createCustomerAcct( $site_name, $user_email, false );
   }
 
   // get template
@@ -63,43 +87,50 @@ class Duda {
     if ( is_wp_error( $response ) || !array_key_exists( 'site_name', $response ) ){
       error_log( "Error occured when create site with template id: " . $tpl_id );
       return false;
-    }
+    }    
     
-    return $response['site_name'];
+    WC()->cart->empty_cart();
+    WC()->cart->add_to_cart( DUDA_SUBSCRIPTION_PRODUCT_ID );
+    
+    wp_redirect( esc_url( add_query_arg( 'site_name', $response['site_name'], wc_get_checkout_url() ) ) );
+    exit;
   }
 
   // create customer account
-  function createCustomerAcct( $site_name = null) {
-    $current_user = wp_get_current_user();
-
-    $response = $this->curl_request( '/accounts/create', 'POST', ['account_name'  => $current_user->user_email] );
+  function createCustomerAcct( $site_name = null, $user_email = null, $is_completed = true ) {
+    $response = $this->curl_request( '/accounts/create', 'POST', ['account_name'  => $user_email] );
     
     if ( is_wp_error( $response ) ) {
       return false;
     }
 
-    $response = $this->curl_request( sprintf( '/accounts/%s/sites/%s/permissions', $current_user->user_email, $site_name ), 'POST', [
-      'permissions' => ['PUSH_NOTIFICATIONS','REPUBLISH','EDIT','INSITE','PUBLISH','CUSTOM_DOMAIN','RESET','SEO','STATS_TAB','BLOG']
+    $response = $this->curl_request( sprintf( '/accounts/%s/sites/%s/permissions', $user_email, $site_name ), 'POST', [
+      'permissions' => $is_completed ? ['PUSH_NOTIFICATIONS','REPUBLISH','EDIT','INSITE','PUBLISH','CUSTOM_DOMAIN','RESET','SEO','STATS_TAB','BLOG'] : ['PUSH_NOTIFICATIONS', 'EDIT', 'STATS_TAB']
     ] );
     
     if ( is_wp_error( $response ) ) {
       return false;
     }
 
-    $duda_sso_token = get_user_meta( get_current_user_id(), 'duda_sso_token', true );
+    return true;
+  }
 
-    if ( empty( $duda_sso_token ) ) {
-      $response = $this->curl_request( sprintf( '/accounts/sso/%s/token', $current_user->user_email ) );
-  
-      if ( is_wp_error( $response ) || !array_key_exists( 'url_parameter', $response ) ) {
-        error_log( "Error occured when generate SSO Token" );
-        return false;
-      }
-  
-      $duda_sso_token = $response['url_parameter']['name'] . '=' . $response['url_parameter']['value'];
-      update_user_meta( get_current_user_id(), 'duda_sso_token', $duda_sso_token );
+  function redirect_to_duda( $site_name = null, $user_email = null ) {
+    error_log("redriect======================================");
+    
+    if ( empty( $site_name ) || empty( $user_email ) )
+      return;
+    
+    $response = $this->curl_request( sprintf( '/accounts/sso/%s/token', $user_email ) );
+
+    if ( is_wp_error( $response ) || !array_key_exists( 'url_parameter', $response ) ) {
+      error_log( "Error occured when generate SSO Token" );
+      return false;
     }
 
-    return DUDA_SSO_ENDPOINT . '/editor/d1?reset=' . $site_name . '&' . $duda_sso_token;
+    $duda_sso_token = $response['url_parameter']['name'] . '=' . $response['url_parameter']['value'];
+
+    wp_redirect( DUDA_SSO_ENDPOINT . '/editor/d1?reset=' . $site_name . '&' . $duda_sso_token );
+    exit;
   }
 }
