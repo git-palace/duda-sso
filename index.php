@@ -18,13 +18,10 @@ if ( function_exists( 'duda' ) ) {
 }
 
 add_shortcode( 'duda-sso-view', function() {
-  wp_enqueue_style( 'duda-sso-style' );
-  wp_enqueue_script( 'duda-sso-script' );
-
   ob_start();
 ?>
 
-  <div class="duda-sso-container container-fluid">
+  <div class="duda-sso-container container">
     <?php include_once 'views/all-templates.php'; ?>
   </div>
 
@@ -36,13 +33,12 @@ add_shortcode( 'duda-sso-view', function() {
   return $html;
 } );
 
-add_action( 'wp_enqueue_scripts', function() {
-  wp_register_style( 'bootstrap-4-css', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' );
-  wp_register_script( 'popper', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', array( 'jquery' ), '1.12.9', true );
-  wp_register_script( 'bootstrap-4-js', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js', array( 'jquery' ), '4.0.0', true );
+add_action( 'wp_enqueue_scripts', function() {  
+  wp_register_style( 'duda-sso-style', plugin_dir_url( __FILE__ ) . 'assets/css/style.css' );
+  wp_register_script( 'duda-sso-script', plugin_dir_url( __FILE__ ) . 'assets/js/scripts.js', array( 'jquery' ), '1.0.0', true );
   
-  wp_register_style( 'duda-sso-style', plugin_dir_url( __FILE__ ) . 'assets/css/style.css', array( 'bootstrap-4-css') );
-  wp_register_script( 'duda-sso-script', plugin_dir_url( __FILE__ ) . 'assets/js/scripts.js', array( 'bootstrap-4-js' ), '1.0.0', true );
+  wp_enqueue_style( 'duda-sso-style' );
+  wp_enqueue_script( 'duda-sso-script' );
 } );
 
 // hook when new order is placed

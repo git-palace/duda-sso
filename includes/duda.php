@@ -121,8 +121,16 @@ class Duda {
     if ( empty( $site_name ) || empty( $user_email ) )
       return;
     
-    $response = $this->curl_request( sprintf( '/accounts/sso/%s/token', $user_email ) );
+    $response = $this->curl_request( sprintf( '/accounts/sso/%s/link/?target=EDITOR&site_name=%s', $user_email, $site_name ) );
+    if ( is_wp_error( $response ) || !array_key_exists( 'url', $response ) ) {
+      error_log( "Error occured when generate SSO Token" );
+      return false;
+    }
 
+    wp_redirect( $response['url'] );
+    exit;
+      
+    /* $response = $this->curl_request( sprintf( '/accounts/sso/%s/token', $user_email ) );
     if ( is_wp_error( $response ) || !array_key_exists( 'url_parameter', $response ) ) {
       error_log( "Error occured when generate SSO Token" );
       return false;
@@ -131,6 +139,6 @@ class Duda {
     $duda_sso_token = $response['url_parameter']['name'] . '=' . $response['url_parameter']['value'];
 
     wp_redirect( DUDA_SSO_ENDPOINT . '/editor/d1?reset=' . $site_name . '&' . $duda_sso_token );
-    exit;
+    exit; */
   }
 }

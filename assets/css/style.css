@@ -1,22 +1,91 @@
-.duda-sso-container .card-thumbnail a {
+.woocommerce-checkout>.col2-set,
+.woocommerce .woocommerce-checkout h3#order_review_heading,
+.woocommerce-checkout #order_review {
+  float: none!important;
+  margin: auto!important;
+}
+
+.woocommerce .woocommerce-checkout h3#order_review_heading,
+.woocommerce #order_review table.shop_table,
+.woocommerce-checkout #payment ul.payment_methods li label[for="payment_method_authorize_net_cim_credit_card"] {
+  display: none;
+}
+
+.duda-sso-container {
+  padding: 50px;
+}
+
+.duda-sso-container .text-center {
   text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  color: #fff;
-  font-size: 2em;
-  visibility: hidden;
-  opacity: 0;
-  background-color: rgba(0,0,0,0.75);
-  top: 20%;
-  transition: all .3s ease;
 }
 
-.duda-sso-container .card-thumbnail a:last-child {
-  top: 40%;
+.duda-sso-container .text-uppercase {
+  text-transform: uppercase;
 }
 
-.duda-sso-container .card-thumbnail:hover a {
-  visibility: visible;
-  opacity: 1;
+.duda-sso-container .all-templates {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.duda-sso-container .all-templates .single-template {
+  flex: 0 0 33.333333%;
+  max-width: calc(33.333333% - 20px);
+  margin: 10px 15px;
+  box-shadow: 0px 3px 5px rgba(0,0,0,.075);
+  border: 1px solid rgba(0,0,0,.075);
+  border-radius: 4px;
+}
+
+.duda-sso-container .all-templates .single-template:nth-child(3n + 1) {
+  margin-left: 0;
+}
+
+.duda-sso-container .all-templates .single-template:nth-child(3n) {
+  margin-right: 0;
+}
+
+.duda-sso-container .all-templates .single-template .thumbnail {
+  padding: 20px;
+  padding-bottom: 0px;
+  background-color: rgb(247, 247, 247);
+  height: 235px;
+}
+
+.duda-sso-container .all-templates .single-template .thumbnail > div {
+  overflow: hidden;
+  widows: 100%;
+  height: 100%;
+}
+
+.duda-sso-container .all-templates .single-template .summary {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.duda-sso-container .all-templates .single-template .summary .template-name {
+  margin: 10px 0;
+}
+
+.duda-sso-container .all-templates .single-template .summary .template-preview {
+  color: #174e7d;
+  font-weight: bold;
+}
+
+.duda-sso-container .all-templates .single-template .summary .template-preview:hover {
+  color: #2491ef;
+}
+
+.duda-sso-container .all-templates .single-template .summary hr {
+  margin: 30px -15px 15px;
+}
+
+.duda-sso-container .all-templates .single-template .summary .template-select {
+  font-weight: bold;
+  color: #61e2fe;
+}
+
+.duda-sso-container .all-templates .single-template .summary .template-select:hover {
+  color: #b3e2ec;
 }
