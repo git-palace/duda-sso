@@ -1,18 +1,27 @@
-.woocommerce-checkout>.col2-set,
-.woocommerce .woocommerce-checkout h3#order_review_heading,
-.woocommerce-checkout #order_review {
-  float: none!important;
-  margin: auto!important;
-}
-
-.woocommerce .woocommerce-checkout h3#order_review_heading,
-.woocommerce #order_review table.shop_table,
-.woocommerce-checkout #payment ul.payment_methods li label[for="payment_method_authorize_net_cim_credit_card"] {
-  display: none;
-}
-
 .duda-sso-container {
   padding: 50px;
+  font-family: "Roboto", Sans-serif;
+}
+
+.duda-sso-container > h1 {
+  font-size: 25.7px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.35;
+  letter-spacing: normal;
+  color: #444444;
+  margin-bottom: 0;
+}
+
+.duda-sso-container > p {
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 2.86;
+  letter-spacing: normal;
+  color: #444444;
 }
 
 .duda-sso-container .text-center {
@@ -26,6 +35,7 @@
 .duda-sso-container .all-templates {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 45px;
 }
 
 .duda-sso-container .all-templates .single-template {
@@ -65,16 +75,26 @@
 }
 
 .duda-sso-container .all-templates .single-template .summary .template-name {
-  margin: 10px 0;
+  font-size: 22px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  color: #444444;
+  margin: 0;
 }
 
 .duda-sso-container .all-templates .single-template .summary .template-preview {
-  color: #174e7d;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  color: #124e7e;
 }
 
 .duda-sso-container .all-templates .single-template .summary .template-preview:hover {
-  color: #2491ef;
+  opacity: .75;
 }
 
 .duda-sso-container .all-templates .single-template .summary hr {
@@ -82,10 +102,14 @@
 }
 
 .duda-sso-container .all-templates .single-template .summary .template-select {
-  font-weight: bold;
-  color: #61e2fe;
+  font-size: 16px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  color: #62e3ff;
 }
 
 .duda-sso-container .all-templates .single-template .summary .template-select:hover {
-  color: #b3e2ec;
+  opacity: .75;
 }

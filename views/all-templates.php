@@ -1,7 +1,7 @@
 <?php //$all_templates = duda()->getTemplates(); ?>
 <?php 
   $all_templates = [[
-    'thumbnail_url' => 'https://irp-cdn.multiscreensite.com/f517ba54/screenshots/Screenshot_o66Pi.png',
+    'thumbnail_url' => 'https://irp-cdn.multiscreensite.com/f517ba54/screenshots/Screenshot_L0FUu.png',
     'template_name' => 'KW Agent',
     'preview_url'   => 'http://websites.agentcloud.com/preview/f517ba54',
     'template_id'   => '1066304'

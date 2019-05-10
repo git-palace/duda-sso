@@ -23,7 +23,7 @@ class Duda {
 
     $response = curl_exec( $ch );
     if ( curl_errno( $ch ) ) {
-        error_log( curl_error( $ch ) );
+        // error_log( curl_error( $ch ) );
 
         return false;
     }
@@ -42,32 +42,51 @@ class Duda {
 
   // constructor
   function __construct() {
+    add_action( 'woocommerce_subscription_status_active', [$this, 'duda_subscription_complete'], 10, 1 );
     add_action( 'woocommerce_subscription_payment_complete', [$this, 'duda_subscription_complete'], 10, 1 );
     add_action( 'woocommerce_subscription_renewal_payment_complete', [$this, 'duda_subscription_complete'], 10, 1 );
 
+    add_action( 'woocommerce_subscription_status_pending-cancel', [$this, 'duda_subscription_failed'], 10, 1 );
+    add_action( 'woocommerce_subscription_status_cancelled', [$this, 'duda_subscription_failed'], 10, 1 );
+    add_action( 'woocommerce_subscription_status_expired', [$this, 'duda_subscription_failed'], 10, 1 );
+    add_action( 'woocommerce_subscription_status_on-hold', [$this, 'duda_subscription_failed'], 10, 1 );
     add_action( 'woocommerce_subscription_payment_failed', [$this, 'duda_subscription_failed'], 10, 1 );
     add_action( 'woocommerce_subscription_renewal_payment_failed', [$this, 'duda_subscription_failed'], 10, 1 );
   }
 
   function duda_subscription_complete( $subscription ) {
-    echo "renewal is completed";
-
     $site_name = $subscription->get_meta( 'site_name' );
+    $initial_subscription = $subscription->get_meta('_subscription_resubscribe');
+
+    if ( empty( $site_name ) && !empty( $initial_subscription)) {
+      $initial_subscription = wc_get_order( $initial_subscription );
+
+      $site_name = $initial_subscription->get_meta( 'site_name' );
+    }
+
     $user_email = $subscription->get_billing_email();
 
     $this->createCustomerAcct( $site_name, $user_email, true );
+    $this->set_site_publish_mode( $site_name, true );
   }
 
   function duda_subscription_failed( $subscription ) {
     if ( is_int( $subscription ) )
       $subscription = wc_get_order( $subscription );
     
-    echo "renewal is failed";
-
     $site_name = $subscription->get_meta( 'site_name' );
+    $initial_subscription = $subscription->get_meta('_subscription_resubscribe');
+
+    if ( empty( $site_name ) && !empty( $initial_subscription)) {
+      $initial_subscription = wc_get_order( $initial_subscription );
+
+      $site_name = $initial_subscription->get_meta( 'site_name' );
+    }
+    
     $user_email = $subscription->get_billing_email();
 
     $this->createCustomerAcct( $site_name, $user_email, false );
+    $this->set_site_publish_mode( $site_name, false );
   }
 
   // get template
@@ -85,7 +104,7 @@ class Duda {
     $response = $this->curl_request( '/sites/multiscreen/create', 'POST', [ 'template_id' => $tpl_id ] );
     
     if ( is_wp_error( $response ) || !array_key_exists( 'site_name', $response ) ){
-      error_log( "Error occured when create site with template id: " . $tpl_id );
+      // error_log( "Error occured when create site with template id: " . $tpl_id );
       return false;
     }    
     
@@ -116,14 +135,12 @@ class Duda {
   }
 
   function redirect_to_duda( $site_name = null, $user_email = null ) {
-    error_log("redriect======================================");
-    
     if ( empty( $site_name ) || empty( $user_email ) )
       return;
     
     $response = $this->curl_request( sprintf( '/accounts/sso/%s/link/?target=EDITOR&site_name=%s', $user_email, $site_name ) );
     if ( is_wp_error( $response ) || !array_key_exists( 'url', $response ) ) {
-      error_log( "Error occured when generate SSO Token" );
+      // error_log( "Error occured when generate SSO Token" );
       return false;
     }
 
@@ -132,7 +149,7 @@ class Duda {
       
     /* $response = $this->curl_request( sprintf( '/accounts/sso/%s/token', $user_email ) );
     if ( is_wp_error( $response ) || !array_key_exists( 'url_parameter', $response ) ) {
-      error_log( "Error occured when generate SSO Token" );
+      // error_log( "Error occured when generate SSO Token" );
       return false;
     }
 
@@ -140,5 +157,15 @@ class Duda {
 
     wp_redirect( DUDA_SSO_ENDPOINT . '/editor/d1?reset=' . $site_name . '&' . $duda_sso_token );
     exit; */
+  }
+
+  function set_site_publish_mode( $site_name = null, $is_publish = true ) {
+    if ( empty( $site_name ) )
+      return;
+    
+    if ( $is_publish )
+      $this->curl_request( sprintf( '/sites/multiscreen/publish/%s', $site_name ), 'POST' );
+    else
+      $this->curl_request( sprintf( '/sites/multiscreen/unpublish/%s', $site_name ), 'POST' );
   }
 }
