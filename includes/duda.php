@@ -85,7 +85,7 @@ class Duda {
     
     $user_email = $subscription->get_billing_email();
 
-    $this->createCustomerAcct( $site_name, $user_email, false );
+    $this->deleteCustomerAcct( $site_name, $user_email );
     $this->set_site_publish_mode( $site_name, false );
   }
 
@@ -134,6 +134,20 @@ class Duda {
     return true;
   }
 
+  // delete customer account
+  function deleteCustomerAcct( $site_name = null, $user_email = null ) {
+    if ( empty( $site_name ) || empty( $user_email ) )
+      return;
+    
+    $response = $this->curl_request( sprintf( '/accounts/%s/sites/%s/permissions', $user_email, $site_name ), 'DELETE' );
+    
+    if ( is_wp_error( $response ) ) {
+      return false;
+    }
+
+    return true;
+  }
+
   function redirect_to_duda( $site_name = null, $user_email = null ) {
     if ( empty( $site_name ) || empty( $user_email ) )
       return;
@@ -163,9 +177,12 @@ class Duda {
     if ( empty( $site_name ) )
       return;
     
-    if ( $is_publish )
-      $this->curl_request( sprintf( '/sites/multiscreen/publish/%s', $site_name ), 'POST' );
-    else
-      $this->curl_request( sprintf( '/sites/multiscreen/unpublish/%s', $site_name ), 'POST' );
+    $response = $this->curl_request( sprintf( '/sites/multiscreen/%s/%s', $is_publish ? 'publish' : 'unpublish', $site_name ), 'POST' );
+    
+    if ( is_wp_error( $response ) ) {
+      return false;
+    }
+
+    return true;
   }
 }
