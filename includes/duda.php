@@ -158,7 +158,21 @@ class Duda {
       return false;
     }
 
-    echo '<script>window.open( "' . $response['url']  . '", "_blank" )</script>';
+    ob_start();
+    ?>
+      <script>
+        var w = window.open( '', 'WebsiteBuilder' );
+        setTimeout( function() {
+          w.location.href = '<?php _e( $response['url'] ); ?>';
+        }, 100);
+      </script>
+    <?php
+
+    $script = ob_get_contents();
+
+    ob_clean();
+
+    echo $script;
       
     /* $response = $this->curl_request( sprintf( '/accounts/sso/%s/token', $user_email ) );
     if ( is_wp_error( $response ) || !array_key_exists( 'url_parameter', $response ) ) {
