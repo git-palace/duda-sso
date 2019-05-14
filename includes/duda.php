@@ -170,7 +170,7 @@ class Duda {
 
     $script = ob_get_contents();
 
-    ob_clean();
+    ob_end_clean();
 
     echo $script;
       
