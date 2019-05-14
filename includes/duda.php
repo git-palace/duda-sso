@@ -159,7 +159,8 @@ class Duda {
     }
 
     wp_redirect( $response['url'] );
-    exit;
+
+    echo '<script>window.open( "' . $response['url']  . '", "_blank" )</script>';
       
     /* $response = $this->curl_request( sprintf( '/accounts/sso/%s/token', $user_email ) );
     if ( is_wp_error( $response ) || !array_key_exists( 'url_parameter', $response ) ) {
