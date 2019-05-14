@@ -69,7 +69,7 @@ class Duda {
     $user_email = $current_user->user_email;
 
     $this->createCustomerAcct( $site_name, $user_email, true );
-    $this->set_site_publish_mode( $site_name, true );
+    // $this->set_site_publish_mode( $site_name, true );
   }
 
   function duda_subscription_failed( $subscription ) {
@@ -90,7 +90,7 @@ class Duda {
     $user_email = $current_user->user_email;
 
     $this->deleteCustomerAcct( $site_name, $user_email );
-    $this->set_site_publish_mode( $site_name, false );
+    // $this->set_site_publish_mode( $site_name, false );
   }
 
   // get template
@@ -197,7 +197,7 @@ class Duda {
   }
 
   // set site publish/unpublish
-  function set_site_publish_mode( $site_name = null, $is_publish = true ) {
+  /* function set_site_publish_mode( $site_name = null, $is_publish = true ) {
     if ( empty( $site_name ) )
       return;
     
@@ -208,7 +208,7 @@ class Duda {
     }
 
     return true;
-  }
+  } */
 
   // redirect to duda editor page
   function redirect_to_duda_editor() {
