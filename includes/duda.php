@@ -117,11 +117,17 @@ class Duda {
 
   // create customer account
   function createCustomerAcct( $site_name = null, $user_email = null, $is_completed = true ) {
+    if ( empty( $user_email ) )
+      return false;
+    
     $response = $this->curl_request( '/accounts/create', 'POST', ['account_name'  => $user_email] );
     
     if ( is_wp_error( $response ) ) {
       return false;
     }
+
+    if ( empty( $site_name ) )
+      return false;
 
     $response = $this->curl_request( sprintf( '/accounts/%s/sites/%s/permissions', $user_email, $site_name ), 'POST', [
       'permissions' => $is_completed ? ['PUSH_NOTIFICATIONS','REPUBLISH','EDIT','INSITE','PUBLISH','CUSTOM_DOMAIN','RESET','SEO','STATS_TAB','BLOG'] : ['PUSH_NOTIFICATIONS', 'EDIT', 'STATS_TAB']
@@ -201,16 +207,19 @@ class Duda {
   }
 
   // redirect to duda editor page
-  function redirect_to_duda_editor() {
-    print_r( $_REQUEST );
+  function redirect_to_duda_editor( $skip = false ) {
     if ( $_REQUEST['confirm'] != 'yes')
       return;
     
     $current_user = wp_get_current_user();
     $response = $this->curl_request( sprintf( '/accounts/sso/%s/link', $current_user->user_email ) );
-    echo "adsfasdf asdf asf";
 
     if ( is_wp_error( $response ) || !array_key_exists( 'url', $response ) ) {
+      if ( !$skip && $response['error_code'] == 'ResourceNotExist' ) {
+        $this->createCustomerAcct( null, $current_user->user_email );
+
+        return $this->redirect_to_duda_editor( true );
+      }
       // error_log( "Error occured when generate SSO Token" );
       return false;
     }
