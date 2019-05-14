@@ -173,6 +173,7 @@ class Duda {
     exit; */
   }
 
+  // set site publish/unpublish
   function set_site_publish_mode( $site_name = null, $is_publish = true ) {
     if ( empty( $site_name ) )
       return;
@@ -184,5 +185,24 @@ class Duda {
     }
 
     return true;
+  }
+
+  // redirect to duda editor page
+  function redirect_to_duda_editor() {
+    print_r( $_REQUEST );
+    if ( $_REQUEST['confirm'] != 'yes')
+      return;
+    
+    $current_user = wp_get_current_user();
+    $response = $this->curl_request( sprintf( '/accounts/sso/%s/link', $current_user->user_email ) );
+    echo "adsfasdf asdf asf";
+
+    if ( is_wp_error( $response ) || !array_key_exists( 'url', $response ) ) {
+      // error_log( "Error occured when generate SSO Token" );
+      return false;
+    }
+
+    wp_redirect( $response['url'] );
+    exit;
   }
 }

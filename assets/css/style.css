@@ -113,3 +113,11 @@
 .duda-sso-container .all-templates .single-template .summary .template-select:hover {
   opacity: .75;
 }
+
+.woocommerce-MyAccount-tabs {
+  display: none;
+}
+
+.woocommerce-MyAccount-content {
+  width: 100%!important;
+}

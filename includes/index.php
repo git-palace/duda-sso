@@ -12,7 +12,11 @@ add_action( 'init', function() {
         if ( isset( $_GET['id'] ) && !empty( $_GET['id']) ) {
           duda()->selectTemplate( $_GET['id'] );          
         }
-        break;     
+        break;
+
+      case 'redirect_to_duda_editor':
+        duda()->redirect_to_duda_editor();
+        break;
     }
   }
 } );
