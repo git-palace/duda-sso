@@ -64,7 +64,9 @@ class Duda {
       $site_name = $initial_subscription->get_meta( 'site_name' );
     }
 
-    $user_email = $subscription->get_billing_email();
+    $current_user = wp_get_current_user();
+    // $user_email = $subscription->get_billing_email();
+    $user_email = $current_user->user_email;
 
     $this->createCustomerAcct( $site_name, $user_email, true );
     $this->set_site_publish_mode( $site_name, true );
@@ -82,8 +84,10 @@ class Duda {
 
       $site_name = $initial_subscription->get_meta( 'site_name' );
     }
-    
-    $user_email = $subscription->get_billing_email();
+
+    $current_user = wp_get_current_user();
+    // $user_email = $subscription->get_billing_email();
+    $user_email = $current_user->user_email;
 
     $this->deleteCustomerAcct( $site_name, $user_email );
     $this->set_site_publish_mode( $site_name, false );
