@@ -1,29 +1,24 @@
 (function ($) {
   var template_id = null;
-  
+
   $(".duda-addons").dialog({
     autoOpen: false,
     dialogClass: "duda-addons-dlg",
     draggable: false,
-    width: 500,
+    width: 750,
+    minHeight: 300,
     modal: true,
     resizable: false,
     buttons: [{
-      text: "Add addon(s)",
+      text: "Check Out",
       click: function () {
         var addon_ids = [];
 
-        $.each($(".duda-addons input:checked"), function() {
+        $.each($(".duda-addons input:checked"), function () {
           addon_ids.push($(this).val())
         });
-        
-        window.location.href = '?action=duda_tpl_select&id=' + template_id + '&addon_ids=' + addon_ids.join("|||");
-      }
-    }, {
-      text: "Skip",
-      click: function () {
-        debugger
-        window.location.href = '?action=duda_tpl_select&id=' + template_id;
+
+        window.location.href = "?action=duda_tpl_select&id=" + template_id + (addon_ids.length ? "&addon_ids=" + addon_ids.join("|||") : "");
       }
     }]
   });
