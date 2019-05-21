@@ -24,9 +24,22 @@
         <h2 class="template-name"><?php esc_html_e( $template['template_name'] ) ?></h2>
         <a class="template-preview" href="<?php esc_attr_e( $template['preview_url']) ?>" target="_blank">Preview Template</a>
         <hr />
-        <a class="template-select text-uppercase" href="?action=duda_tpl_select&id=<?php esc_attr_e( $template['template_id'] ) ?>">Start with this template</a>
+        <a class="template-select text-uppercase" href="?action=duda_tpl_select&id=<?php esc_attr_e( $template['template_id'] ) ?>" template-id="<?php esc_attr_e( $template['template_id'] ) ?>">Start with this template</a>
       </div>
 
     </div>
   <?php endforeach; ?>
+</div>
+
+<div class="duda-addons" title="Duda Subscription Product Addons" style="display: none;">
+  <?php if ( function_exists( 'get_duda_subscription_addons' ) ) : ?>
+    <?php foreach ( get_duda_subscription_addons() as $addon_product_id ) : $product = wc_get_product( $addon_product_id ); ?>
+      <div class="single-duda-addon">
+        <p>
+          <input type="checkbox" id="product-<?php esc_attr_e( $addon_product_id )?>" />
+          <label for="product-<?php esc_attr_e( $addon_product_id )?>"><<?php _e( $product->get_title()) )?>/label>
+        </p>
+      </div>
+    <?php endforeach; ?>
+  <?php endif; ?>
 </div>

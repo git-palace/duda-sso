@@ -1,0 +1,9 @@
+
+/* Woocommerce my account page */
+.woocommerce-MyAccount-tabs {
+  display: none;
+}
+
+.woocommerce-MyAccount-content {
+  width: 100% !important;
+}

@@ -3,7 +3,7 @@
   font-family: "Roboto", Sans-serif;
 }
 
-.duda-sso-container > h1 {
+.duda-sso-container>h1 {
   font-size: 25.7px;
   font-weight: bold;
   font-style: normal;
@@ -14,7 +14,7 @@
   margin-bottom: 0;
 }
 
-.duda-sso-container > p {
+.duda-sso-container>p {
   font-size: 14px;
   font-weight: normal;
   font-style: normal;
@@ -42,8 +42,8 @@
   flex: 0 0 33.333333%;
   max-width: calc(33.333333% - 20px);
   margin: 10px 15px;
-  box-shadow: 0px 3px 5px rgba(0,0,0,.075);
-  border: 1px solid rgba(0,0,0,.075);
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, .075);
+  border: 1px solid rgba(0, 0, 0, .075);
   border-radius: 4px;
 }
 
@@ -62,7 +62,7 @@
   height: 235px;
 }
 
-.duda-sso-container .all-templates .single-template .thumbnail > div {
+.duda-sso-container .all-templates .single-template .thumbnail>div {
   overflow: hidden;
   widows: 100%;
   height: 100%;
@@ -114,10 +114,7 @@
   opacity: .75;
 }
 
-.woocommerce-MyAccount-tabs {
+/* Product addons jquery modal */
+.no-close .ui-dialog-titlebar-close {
   display: none;
-}
-
-.woocommerce-MyAccount-content {
-  width: 100%!important;
 }
