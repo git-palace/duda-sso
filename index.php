@@ -18,8 +18,6 @@ if ( function_exists( 'duda' ) ) {
 }
 
 add_shortcode( 'duda-sso-view', function() {
-  return 'asdfa sfasdf';
-
   wp_enqueue_style( 'duda-sso-style' );
   wp_enqueue_script( 'duda-sso-script' );
 

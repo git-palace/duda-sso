@@ -37,7 +37,7 @@
       <div class="single-duda-addon">
         <p>
           <input type="checkbox" id="product-<?php esc_attr_e( $addon_product_id )?>" />
-          <label for="product-<?php esc_attr_e( $addon_product_id )?>"><<?php _e( $product->get_title()) )?>/label>
+          <label for="product-<?php esc_attr_e( $addon_product_id )?>"><<?php //_e( $product->get_title()) )?>/label>
         </p>
       </div>
     <?php endforeach; ?>
