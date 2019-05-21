@@ -6,11 +6,11 @@ function duda() {
 }
 
 function get_duda_subscription_addons() {
-  if ( !defined( DUDA_SUBSCRIPTION_PRODUCT_ADDONS ) ) return [];
-
+  if ( !defined( 'DUDA_SUBSCRIPTION_PRODUCT_ADDONS' ) ) return [];
+  
   if ( !is_array( DUDA_SUBSCRIPTION_PRODUCT_ADDONS ) ) return [];
-
-  if ( empty( DUDA_SUBSCRIPTION_PRODUCT_ADDONS ) ) return[];
+  
+  if ( empty( DUDA_SUBSCRIPTION_PRODUCT_ADDONS ) ) return [];
   
   return DUDA_SUBSCRIPTION_PRODUCT_ADDONS;
 }
@@ -20,7 +20,12 @@ add_action( 'init', function() {
     switch( $_GET['action'] ) {
       case 'duda_tpl_select':
         if ( isset( $_GET['id'] ) && !empty( $_GET['id']) ) {
-          duda()->selectTemplate( $_GET['id'] );          
+          $addon_ids = [];
+
+          if ( isset( $_GET['addon_ids'] ) && !empty( $_GET['addon_ids'] ) ) {
+            $addon_ids = explode( "|||", $_GET['addon_ids'] );
+          }
+          duda()->selectTemplate( $_GET['id'], $addon_ids );          
         }
         break;
 

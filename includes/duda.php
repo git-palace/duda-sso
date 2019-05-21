@@ -101,7 +101,7 @@ class Duda {
   }
 
   // select template
-  function selectTemplate( $tpl_id = null ) {
+  function selectTemplate( $tpl_id = null, $addon_ids = [] ) {
     if ( empty( $tpl_id ) )
       return;
     
@@ -110,10 +110,13 @@ class Duda {
     if ( is_wp_error( $response ) || !array_key_exists( 'site_name', $response ) ){
       // error_log( "Error occured when create site with template id: " . $tpl_id );
       return false;
-    }    
+    }
     
     WC()->cart->empty_cart();
     WC()->cart->add_to_cart( DUDA_SUBSCRIPTION_PRODUCT_ID );
+    
+    foreach( $addon_ids as $addon_id )
+      WC()->cart->add_to_cart( $addon_id );
     
     wp_redirect( esc_url( add_query_arg( 'site_name', $response['site_name'], wc_get_checkout_url() ) ) );
     exit;

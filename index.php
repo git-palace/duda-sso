@@ -18,7 +18,6 @@ if ( function_exists( 'duda' ) ) {
 }
 
 add_shortcode( 'duda-sso-view', function() {
-  wp_enqueue_style( 'duda-sso-style' );
   wp_enqueue_script( 'duda-sso-script' );
 
   ob_start();
@@ -40,6 +39,8 @@ add_action( 'wp_enqueue_scripts', function() {
   wp_register_style( 'duda-sso-style', plugin_dir_url( __FILE__ ) . 'assets/css/style.css', array( 'wp-jquery-ui-dialog' ) );
   wp_register_script( 'duda-sso-script', plugin_dir_url( __FILE__ ) . 'assets/js/scripts.js', array( 'jquery', 'jquery-ui-dialog' ), '1.0.0', true );
 
+  wp_enqueue_style( 'duda-sso-style' );
+  
   if ( is_account_page() || is_checkout() ) {
     wp_enqueue_style( 'duda-woocommerce-style', plugin_dir_url( __FILE__ ) . 'assets/css/woocommerce.css' );
   }

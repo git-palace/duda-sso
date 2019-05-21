@@ -115,6 +115,25 @@
 }
 
 /* Product addons jquery modal */
-.no-close .ui-dialog-titlebar-close {
+.duda-addons-dlg.ui-dialog .ui-dialog-titlebar {
+  padding: 0 1em;
+  font-size: 16px;
+}
+
+.duda-addons-dlg.ui-dialog .ui-dialog-titlebar span {
+  margin: 0;
+}
+
+.duda-addons-dlg.ui-dialog .ui-dialog-titlebar-close {
   display: none;
+}
+
+.duda-addons-dlg.ui-dialog .ui-dialog-content {
+  width: 100% !important;
+}
+
+.duda-addons-dlg.ui-dialog .ui-button-text-only .ui-button-text {
+  font-size: 1em;
+  padding: 0 1em;
+  width: 150px;
 }
