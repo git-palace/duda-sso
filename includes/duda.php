@@ -161,7 +161,7 @@ class Duda {
     return true;
   }
 
-  function redirect_to_duda( $site_name = null, $user_email = null ) {
+  function redirect_to_duda( $site_name = null, $user_email = null, $open_new_tab = true ) {
     if ( empty( $site_name ) || empty( $user_email ) )
       return;
     
@@ -170,6 +170,12 @@ class Duda {
       // error_log( "Error occured when generate SSO Token" );
       return false;
     }
+
+    if ( !$open_new_tab ) {
+      wp_redirect( $response['url'] );
+      exit;
+    }
+
 
     ob_start();
     ?>
@@ -186,32 +192,7 @@ class Duda {
     ob_end_clean();
 
     echo $script;
-      
-    /* $response = $this->curl_request( sprintf( '/accounts/sso/%s/token', $user_email ) );
-    if ( is_wp_error( $response ) || !array_key_exists( 'url_parameter', $response ) ) {
-      // error_log( "Error occured when generate SSO Token" );
-      return false;
-    }
-
-    $duda_sso_token = $response['url_parameter']['name'] . '=' . $response['url_parameter']['value'];
-
-    wp_redirect( DUDA_SSO_ENDPOINT . '/editor/d1?reset=' . $site_name . '&' . $duda_sso_token );
-    exit; */
   }
-
-  // set site publish/unpublish
-  /* function set_site_publish_mode( $site_name = null, $is_publish = true ) {
-    if ( empty( $site_name ) )
-      return;
-    
-    $response = $this->curl_request( sprintf( '/sites/multiscreen/%s/%s', $is_publish ? 'publish' : 'unpublish', $site_name ), 'POST' );
-    
-    if ( is_wp_error( $response ) ) {
-      return false;
-    }
-
-    return true;
-  } */
 
   // redirect to duda editor page
   function redirect_to_duda_editor() {

@@ -33,7 +33,7 @@
 
 <div class="duda-addons" title="Duda Subscription Product Addons" style="display: none;">
   <?php if ( function_exists( 'get_duda_subscription_addons' ) ) : ?>
-    <?php foreach ( get_duda_subscription_addons() as $addon_product_id ) : $product = wc_get_product( $addon_product_id ); error_log( print_r( $product, true ) ); ?>
+    <?php foreach ( get_duda_subscription_addons() as $addon_key => $addon_product_id ) : $product = wc_get_product( $addon_product_id ); ?>
       <div class="single-duda-addon">
         <p>
           <input type="checkbox" id="product-<?php esc_attr_e( $addon_product_id )?>" value="<?php esc_attr_e( $addon_product_id )?>" />

@@ -115,6 +115,9 @@
 }
 
 /* Product addons jquery modal */
+.ui-widget-overlay {
+  position: fixed;
+}
 .duda-addons-dlg.ui-dialog .ui-dialog-titlebar {
   padding: 0 1em;
   font-size: 16px;
@@ -135,4 +138,35 @@
 .duda-addons-dlg.ui-dialog .ui-button-text-only .ui-button-text {
   font-size: 1em;
   padding: 0 1em;
+}
+
+/* neighborhoods container */
+.neighborhoods-select-container {
+  height: 80vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.neighborhoods-select-container form {
+  margin: auto;
+  width: 100%;
+}
+
+.neighborhoods-select-container form button[type=submit] {
+  margin-top: 30px;
+}
+
+.neighborhoods-container {
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.neighborhoods-container > select {
+  display: none;
+}
+
+.neighborhoods-container > label {
+  margin-top: auto;
 }
