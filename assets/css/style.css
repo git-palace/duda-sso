@@ -114,59 +114,114 @@
   opacity: .75;
 }
 
-/* Product addons jquery modal */
-.ui-widget-overlay {
+/* Product addons modal */
+.duda-addons-container {
   position: fixed;
-}
-.duda-addons-dlg.ui-dialog .ui-dialog-titlebar {
-  padding: 0 1em;
-  font-size: 16px;
-}
-
-.duda-addons-dlg.ui-dialog .ui-dialog-titlebar span {
-  margin: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 600;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
-.duda-addons-dlg.ui-dialog .ui-dialog-titlebar-close {
-  display: none;
+.duda-addons-container .duda-addons-modal {
+  width: 50%;
+  height: 40%;
+  left: 25%;
+  top: 30%;
+  position: absolute;
+  background: #fff;
+  box-shadow: 0 1px 20px 5px rgba(0, 0, 0, 0.1);
 }
 
-.duda-addons-dlg.ui-dialog .ui-dialog-content {
-  width: 100% !important;
+.duda-addons-container .duda-addons-modal a.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font: 300 1.71429em "dashicons" !important;
+  color: #777;
+  content: '\f335';
+  display: inline-block;
+  padding: 10px 20px;
+  z-index: 5;
+  text-decoration: none;
+  height: 50px;
+  border-left: 1px solid #ddd;
 }
 
-.duda-addons-dlg.ui-dialog .ui-button-text-only .ui-button-text {
-  font-size: 1em;
-  padding: 0 1em;
+.duda-addons-container .duda-addons-modal a.close:hover {
+  background: #eee;
+  opacity: 0.8;
+}
+
+.duda-addons-container .duda-addons-modal .modal-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  border-bottom: 1px solid #ddd;
+  padding: 0px 15px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  line-height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.duda-addons-container .duda-addons-modal .modal-content {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  bottom: 65px;
+  left: 0;
+  overflow: auto;
+  padding: 30px;
+}
+
+.duda-addons-container .duda-addons-modal .modal-footer{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 12px 20px;
+  border-top: 1px solid #ddd;
+  background: #fff;
+  text-align: right;
 }
 
 /* neighborhoods container */
 .neighborhoods-select-container {
   height: 80vh;
   margin: auto;
-  display: flex;
-  flex-direction: column;
 }
 
-.neighborhoods-select-container form {
-  margin: auto;
-  width: 100%;
-}
-
-.neighborhoods-select-container form button[type=submit] {
-  margin-top: 30px;
+.neighborhoods-select-container form h2 {
+  margin: 30px 0;
 }
 
 .neighborhoods-container {
-  min-height: 100px;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 
-.neighborhoods-container > select {
-  display: none;
+.neighborhoods-container label {
+  flex: 0 0 25%;
+  max-width: 25%;
+  display: inline-block;
 }
 
-.neighborhoods-container > label {
-  margin-top: auto;
+.neighborhoods-container label input[type="checkbox"] {
+  position: relative;
+  left: auto;
+}
+
+.woocommerce #order_review table.shop_table tbody td.product-name {
+  width: 320px;
+}
+
+.woocommerce table.shop_table a.remove {
+  text-align: center;
+  line-height: 25px;
 }

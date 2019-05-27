@@ -87,7 +87,7 @@ add_action( 'init', function() {
           'help@agentcloud.com',
           'New 10 Neighborhoods',
           sprintf( 'Selected market place is %s and neighborhoods are %s.', $marketplace, implode( ', ', $neighborhoods ) ),
-          [sprintf( 'Cc: %s', $user_email )]
+          ['Cc: emmanuel@agentcloud.com', sprintf( 'Cc: %s', $user_email )]
         );
 
         $site_name = $order->get_meta( 'site_name' );

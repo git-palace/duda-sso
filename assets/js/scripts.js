@@ -1,66 +1,53 @@
 (function ($) {
-  var template_id = null;
-
-  $(".duda-addons").dialog({
-    autoOpen: false,
-    dialogClass: "duda-addons-dlg",
-    draggable: false,
-    width: 750,
-    minHeight: 300,
-    modal: true,
-    resizable: false,
-    buttons: [{
-      text: "Check Out",
-      click: function () {
-        var addon_ids = [];
-
-        $.each($(".duda-addons input:checked"), function () {
-          addon_ids.push($(this).val())
-        });
-
-        window.location.href = "?action=duda_tpl_select&id=" + template_id + (addon_ids.length ? "&addon_ids=" + addon_ids.join("|||") : "");
-      }
-    }]
-  });
+  var template_id;
 
   $(".template-select").click(function (e) {
     e.preventDefault();
 
-    $(".duda-addons").dialog("open");
+    $.each($(".duda-addons input:checked"), function () {
+      $(this).prop("checked", false);
+    });
+
+    $(".duda-addons-container").show();
 
     template_id = $(this).attr("template-id");
   });
 
-  if ($("select[name^=neighborhoods]").length && marketplaces && Object.keys(marketplaces).length) {
-    $("select[name=marketplace]").change(function () {
-      $("select[name^=neighborhoods]").select2({
-        maximumSelectionLength: 10
-      });
-      $(".neighborhoods-container").css('visibility', 'hidden');
-      $("select[name^=neighborhoods]").val(null).trigger("change");
-      $("select[name^=neighborhoods]").select2("destroy");
+  $(".duda-addons-modal a.close").click(function () {
+    $(".duda-addons-container").hide();
+  });
 
-      if (!$(this).val()) {
-        $("select[name^=neighborhoods] option").each(function () {
-          $(this).remove();
-        });
-        return;
-      }
+  $(".duda-addons-modal button").click(function () {
+    var addon_ids = [];
 
-      $.each(marketplaces[$(this).val()], function (index, neighborhood) {
-        $("select[name^=neighborhoods]").append(new Option(neighborhood));
-      });
-
-      $("select[name^=neighborhoods]").select2({
-        maximumSelectionLength: 10
-      });
-      $(".neighborhoods-container").css('visibility', 'visible');
+    $.each($(".duda-addons-modal .modal-content input:checked"), function () {
+      addon_ids.push($(this).val())
     });
 
-    $("select[name=marketplace]").trigger("change");
+    window.location.href = "?action=duda_tpl_select&id=" + template_id + (addon_ids.length ? "&addon_ids=" + addon_ids.join("|||") : "");
+  });
+
+  if ($("select[name=marketplace]").length) {
+    $("select[name=marketplace]").change(function () {
+      $(".neighborhoods-container").hide();
+
+      $("input[name^=neighborhoods]").each(function () {
+        $(this).prop("checked", false);
+      });
+
+      $("input[name^=neighborhoods]").click(function (e) {
+        if ($("input[name^=neighborhoods]:checked").length > 10) {
+          $(this).prop("checked", false);
+          alert("Only 10 neightborhoods can be selected.");
+          return false;
+        }
+      });
+
+      $(".neighborhoods-container[marketplace='" + $(this).val() + "']").slideDown("slow");
+    });
 
     $(".neighborhoods-select-container form").submit(function (e) {
-      if (!$("select[name^=neighborhoods]").val())
+      if (!$("input[name^=neighborhoods]").val())
         e.preventDefault();
     });
   }

@@ -31,18 +31,27 @@
   <?php endforeach; ?>
 </div>
 
-<div class="duda-addons" title="Duda Subscription Product Addons" style="display: none;">
-  <?php if ( function_exists( 'get_duda_subscription_addons' ) ) : ?>
-    <?php foreach ( get_duda_subscription_addons() as $addon_key => $addon_product_id ) : $product = wc_get_product( $addon_product_id ); ?>
-      <div class="single-duda-addon">
-        <p>
-          <input type="checkbox" id="product-<?php esc_attr_e( $addon_product_id )?>" value="<?php esc_attr_e( $addon_product_id )?>" />
-          <label for="product-<?php esc_attr_e( $addon_product_id )?>">
-            <?php _e( $product->get_title() ); ?>
-            <small>(+ <?php _e( $product->get_price_html() ); ?>)</small>
-          </label>
-        </p>
-      </div>
-    <?php endforeach; ?>
-  <?php endif; ?>
+<div class="duda-addons-container" style="display: none;">
+  <div class="duda-addons-modal">
+    <a href="#" class="close">× <span class="screen-reader-text"></span></a>
+
+    <header class="modal-header">Luxury Website Addons</header>
+
+    <div class="modal-content">    
+      <?php if ( function_exists( 'get_duda_subscription_addons' ) ) : ?>
+        <?php foreach ( get_duda_subscription_addons() as $addon_key => $addon_product_id ) : $product = wc_get_product( $addon_product_id ); ?>
+          <div class="single-duda-addon">
+            <p>
+              <input type="checkbox" id="product-<?php esc_attr_e( $addon_product_id )?>" value="<?php esc_attr_e( $addon_product_id )?>" />
+              <label for="product-<?php esc_attr_e( $addon_product_id )?>">
+                <?php _e( $product->get_title() ); ?> <small>(<?php _e( $product->get_price_html() ); ?>)</small>
+              </label>
+            </p>
+          </div>
+        <?php endforeach; ?>
+      <?php endif; ?>
+    </div>
+    
+    <footer class="modal-footer"><button type="submit" class="button-primary">Check out</button></footer>
+  </div>
 </div>
