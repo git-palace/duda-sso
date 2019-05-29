@@ -23,23 +23,8 @@ function conditional_duda_redirect( $order = null ) {
 
   foreach ( $order->get_items() as $item ) {
     if ( $item->get_product_id() == get_duda_subscription_addons()['neighborhoods'] ) {
-      ob_start();
-    ?>
-      <script>
-        var w = window.open( '', 'Select 10 Neighborhoods' );
-        setTimeout( function() {
-          w.location.href = '<?php _e( add_query_arg( 'order_id', $order->get_id(), home_url( '/10-neighborhoods' ) ) ); ?>';
-        }, 100);
-      </script>
-    <?php
-  
-      $script = ob_get_contents();
-  
-      ob_end_clean();
-  
-      echo $script;
-
-      return;
+      wp_redirect( add_query_arg( 'order_id', $order->get_id(), home_url( '/10-neighborhoods' ) ) );
+      exit;
     }
   }
 
@@ -83,16 +68,44 @@ add_action( 'init', function() {
         $current_user = wp_get_current_user();
         $user_email = $current_user->user_email;
 
+        ob_start();
+        ?>
+
+        <p>Selected market place is <?php _e( $marketplace ); ?></p>
+
+        <p>Selected neighborhoods are:</p>
+        <ol>
+          <?php foreach ( $neighborhoods as $neighborhood ) _e( '<li>' . trim( $neighborhood ) . '</li>');?>
+        </ol>
+
+        <?php
+        $email_content = ob_get_contents();
+        ob_end_clean();
+        
         wp_mail(
           'help@agentcloud.com',
           'New 10 Neighborhoods',
-          sprintf( 'Selected market place is %s and neighborhoods are %s.', $marketplace, implode( ', ', $neighborhoods ) ),
-          ['Cc: emmanuel@agentcloud.com', sprintf( 'Cc: %s', $user_email )]
+          $email_content,
+          ['Cc: emmanuel@agentcloud.com', 'Cc: amirul@square1grp.com', sprintf( 'Cc: %s', $user_email ), 'Content-Type: text/html; charset=UTF-8']
         );
 
         $site_name = $order->get_meta( 'site_name' );
       
-        duda()->redirect_to_duda( $site_name, $user_email, false );
+        duda()->redirect_to_duda( $site_name, $user_email );
+
+        ob_start();
+        ?>        
+          <script>
+            setTimeout( function() {
+              window.location.href = '<?php _e( home_url( '/my-account/view-order/' . $order_id ) ); ?>';
+            }, 200);
+          </script>
+        <?php
+        $script = ob_get_contents();
+
+        ob_end_clean();
+
+        echo $script;
 
         break;
     }

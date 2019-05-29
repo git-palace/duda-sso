@@ -176,7 +176,6 @@ class Duda {
       exit;
     }
 
-
     ob_start();
     ?>
       <script>

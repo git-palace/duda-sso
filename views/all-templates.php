@@ -1,7 +1,7 @@
 <?php //$all_templates = duda()->getTemplates(); ?>
 <?php 
   $all_templates = [[
-    'thumbnail_url' => 'https://irp-cdn.multiscreensite.com/f517ba54/screenshots/Screenshot_L0FUu.png',
+    'thumbnail_url' => 'https://irp-cdn.multiscreensite.com/f517ba54/screenshots/Screenshot_XjMkc.png',
     'template_name' => 'KW Agent',
     'preview_url'   => 'http://websites.agentcloud.com/preview/f517ba54',
     'template_id'   => '1066304'
@@ -35,7 +35,7 @@
   <div class="duda-addons-modal">
     <a href="#" class="close">× <span class="screen-reader-text"></span></a>
 
-    <header class="modal-header">Luxury Website Addons</header>
+    <header class="modal-header">Premium Website Add-ons</header>
 
     <div class="modal-content">    
       <?php if ( function_exists( 'get_duda_subscription_addons' ) ) : ?>
