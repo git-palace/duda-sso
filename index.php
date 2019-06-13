@@ -9,6 +9,10 @@ if ( !defined( 'ABSPATH' ) ) {
   exit;
 }
 
+if ( !is_plugin_active( 'wp-erp/wp-erp.php' ) || !is_plugin_active( 'wp-erp-shortcodes/index.php' ) ) {
+  return;
+}
+
 define( 'DUDA_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 require_once( 'config.php' );
@@ -111,6 +115,13 @@ add_shortcode( '10-neightborhoods-form-view', function() {
 } );
 
 add_shortcode( 'duda-sso-view', function() {
+  /* $current_user = wp_get_current_user();
+  echo '<pre>';
+  print_r( [$current_user->display_name, $current_user->user_email] );
+  echo '</pre>';
+
+  return; */
+
   wp_enqueue_script( 'duda-sso-script' );
 
   ob_start();

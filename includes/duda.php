@@ -214,4 +214,9 @@ class Duda {
     wp_redirect( $response['url'] );
     exit;
   }
+
+  // get full name
+  function get_full_name() {
+
+  }
 }

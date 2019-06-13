@@ -1,18 +1,10 @@
-<?php //$all_templates = duda()->getTemplates(); ?>
-<?php 
-  $all_templates = [[
-    'thumbnail_url' => 'https://irp-cdn.multiscreensite.com/f517ba54/screenshots/Screenshot_XjMkc.png',
-    'template_name' => 'KW Agent',
-    'preview_url'   => 'http://websites.agentcloud.com/preview/f517ba54',
-    'template_id'   => '1066304'
-  ]];
-?>
+<?php $all_templates = duda()->getTemplates(); ?>
 
 <h1 class="text-center text-uppercase">Choose a template to start from</h1>
 <p class="text-center">Each Template is natively responsive and can be fully customized to your liking.</p>
 
 <div class="all-templates">
-  <?php foreach( $all_templates as $template ): ?>
+  <?php foreach( $all_templates as $template ): if ( $template['template_id'] != '1071598' ) continue; ?>
     <div class="single-template">
       <div class="thumbnail">
         <div>
