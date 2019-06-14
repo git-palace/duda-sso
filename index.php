@@ -115,11 +115,6 @@ add_shortcode( '10-neightborhoods-form-view', function() {
 } );
 
 add_shortcode( 'duda-sso-view', function() {
-	echo '<pre>';
-	print_r( duda()->update_site_content( '123') );
-	echo '</pre>';
-	return;
-
 	wp_enqueue_script( 'duda-sso-script' );
 
 	ob_start();

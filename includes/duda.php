@@ -323,8 +323,6 @@ class Duda {
 			'site_images' => $site_images
 		];
 
-		return $site_content;
-
-		// $response = $this->curl_request( sprintf( '/sites/multiscreen/%s/content', $site_name ), 'POST', $site_content );
+		$response = $this->curl_request( sprintf( '/sites/multiscreen/%s/content', $site_name ), 'POST', $site_content );
 	}
 }
