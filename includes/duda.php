@@ -220,15 +220,17 @@ class Duda {
 	function update_site_content( $site_name = null ) {
 		if ( empty( $site_name ) ) return;
 
+		$broker_user_id = current_wp_erp_user_is( 'broker' ) ? get_current_user_id() : get_user_meta( get_current_user_id(), 'created_by', true );
+
 		$current_user = wp_get_current_user();
 		$email = $current_user->user_email;
 		$full_name = $current_user->user_firstname . ' ' . $current_user->user_lastname;
 
-		$office_address_1 = get_user_meta( get_current_user_id(), 'office_address_1', true );
-		$office_address_2 = get_user_meta( get_current_user_id(), 'office_address_2', true );
-		$office_city = get_user_meta( get_current_user_id(), 'office_city', true );
-		$office_state = get_user_meta( get_current_user_id(), 'office_state', true );
-		$office_zip = get_user_meta( get_current_user_id(), 'office_zip', true );
+		$office_address_1 = get_user_meta( $broker_user_id, 'office_address_1', true );
+		$office_address_2 = get_user_meta( $broker_user_id, 'office_address_2', true );
+		$office_city = get_user_meta( $broker_user_id, 'office_city', true );
+		$office_state = get_user_meta( $broker_user_id, 'office_state', true );
+		$office_zip = get_user_meta( $broker_user_id, 'office_zip', true );
 
 		$office_full_address = sprintf( 
 			'%s<br/>%s, %s %s',
@@ -238,13 +240,15 @@ class Duda {
 			$office_zip
 		);
 
-		$office_dre_number = get_user_meta( get_current_user_id(), 'office_dre_number', true );
-		$office_dre_number = str_replace( 'dre', '', strtolower( $office_dre_number ) );
-		$office_dre_number = str_replace( '#', '', strtolower( $office_dre_number ) );
-
-		$dre_number = get_user_meta( get_current_user_id(), 'dre_number', true );
-		$dre_number = str_replace( 'dre', '', strtolower( $dre_number ) );
-		$dre_number = str_replace( '#', '', strtolower( $dre_number ) );
+		if ( current_wp_erp_user_is( 'broker' ) || current_wp_erp_user_is( 'staff' ) ) {
+			$dre_number = get_user_meta( $broker_user_id, 'office_dre_number', true );
+			$dre_number = str_replace( 'dre', '', strtolower( $office_dre_number ) );
+			$dre_number = str_replace( '#', '', strtolower( $office_dre_number ) );
+		} else {
+			$dre_number = get_user_meta( get_current_user_id(), 'dre_number', true );
+			$dre_number = str_replace( 'dre', '', strtolower( $dre_number ) );
+			$dre_number = str_replace( '#', '', strtolower( $dre_number ) );			
+		}
 
 		$employee = new WeDevs\ERP\HRM\Employee( get_current_user_id() );
 		$work_phone = $employee->get_work_phone();
@@ -273,12 +277,7 @@ class Duda {
 			];
 		}
 
-		if ( !empty( $office_dre_number ) ) {
-			$custom_content[] = [
-				'label' => 'DRE Number',
-				'text'  => sprintf( '<p class="rteBlock">DRE# %s</p>', $office_dre_number )
-			];
-		} elseif ( !empty( $dre_number ) ) {
+		if ( !empty( $dre_number ) ) {
 			$custom_content[] = [
 				'label' => 'DRE Number',
 				'text'  => sprintf( '<p class="rteBlock">DRE# %s</p>', $dre_number )
@@ -299,6 +298,32 @@ class Duda {
 			];
 		}
 
-		$response = $this->curl_request( sprintf( '/sites/multiscreen/%s/content', $site_name ), 'POST', ['site_texts'  => ['custom' => $custom_content]] );
+		$site_images = [];
+
+		$photo_id = get_user_meta( $broker_user_id, 'office_logo', true );
+		$office_logo_url = $photo_id ? wp_get_attachment_url( $photo_id ) : '';
+		if ( !empty( $office_logo_url ) ) {
+			$site_images[] = [
+				'label' => 'Office Logo',
+				'url'	=> $office_logo_url,
+				'alt'	=> 'Office Logo'
+			];
+		}
+
+		$avatar_url = $employee->get_avatar_url( 450 );
+		if ( !empty( $avatar_url ) ) {
+			$site_images[] = [
+				'label' => 'Headshot',
+				'url'	=> $avatar_url,
+				'alt'	=> 'Headshot'
+			];
+		}
+
+		$site_content = [
+			'site_texts'  => ['custom' => $custom_content], 
+			'site_images' => $site_images
+		];
+
+		$response = $this->curl_request( sprintf( '/sites/multiscreen/%s/content', $site_name ), 'POST', $site_content );
 	}
 }
