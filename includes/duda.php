@@ -242,12 +242,8 @@ class Duda {
 
 		if ( current_wp_erp_user_is( 'broker' ) || current_wp_erp_user_is( 'staff' ) ) {
 			$dre_number = get_user_meta( $broker_user_id, 'office_dre_number', true );
-			$dre_number = str_replace( 'dre', '', strtolower( $office_dre_number ) );
-			$dre_number = str_replace( '#', '', strtolower( $office_dre_number ) );
 		} else {
 			$dre_number = get_user_meta( get_current_user_id(), 'dre_number', true );
-			$dre_number = str_replace( 'dre', '', strtolower( $dre_number ) );
-			$dre_number = str_replace( '#', '', strtolower( $dre_number ) );			
 		}
 
 		$employee = new WeDevs\ERP\HRM\Employee( get_current_user_id() );
@@ -278,6 +274,9 @@ class Duda {
 		}
 
 		if ( !empty( $dre_number ) ) {
+			$dre_number = str_replace( 'dre', '', strtolower( $dre_number ) );
+			$dre_number = str_replace( '#', '', strtolower( $dre_number ) );
+			
 			$custom_content[] = [
 				'label' => 'DRE Number',
 				'text'  => sprintf( '<p class="rteBlock">DRE# %s</p>', $dre_number )
@@ -324,6 +323,8 @@ class Duda {
 			'site_images' => $site_images
 		];
 
-		$response = $this->curl_request( sprintf( '/sites/multiscreen/%s/content', $site_name ), 'POST', $site_content );
+		return $site_content;
+
+		// $response = $this->curl_request( sprintf( '/sites/multiscreen/%s/content', $site_name ), 'POST', $site_content );
 	}
 }
