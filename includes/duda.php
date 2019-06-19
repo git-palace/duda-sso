@@ -305,6 +305,13 @@ class Duda {
 			];
 		}
 
+		if ( !empty( $work_phone ) || !empty( $email ) ) {
+			$custom_content[] = [
+				'label'	=> 'Footer Contact',
+				'text'  => sprintf( '<p class="rteBlock">%s<br/>%s</p>', $work_phone, $email )
+			];
+		}
+
 		$site_images = [];
 
 		$photo_id = get_user_meta( $broker_user_id, 'office_logo', true );
