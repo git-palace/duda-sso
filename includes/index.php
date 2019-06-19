@@ -71,6 +71,7 @@ add_action( 'init', function() {
         ob_start();
         ?>
 
+        <p>Sender is <?php _e( $current_user->user_firstname . ' ' . $current_user->user_lastname ); ?>.</p>
         <p>Selected market place is <?php _e( $marketplace ); ?></p>
 
         <p>Selected neighborhoods are:</p>
