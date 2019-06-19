@@ -231,6 +231,7 @@ class Duda {
 		$office_city = get_user_meta( $broker_user_id, 'office_city', true );
 		$office_state = get_user_meta( $broker_user_id, 'office_state', true );
 		$office_zip = get_user_meta( $broker_user_id, 'office_zip', true );
+		$legal_compliance = get_user_meta( $broker_user_id, 'legal_compliance', true );
 
 		$office_full_address = sprintf( 
 			'%s<br/>%s, %s %s',
@@ -287,6 +288,13 @@ class Duda {
 			$custom_content[] = [
 				'label'	=> 'Biography',
 				'text'  => sprintf( '<p class="rteBlock">%s</p>', $description )
+			];
+		}
+
+		if ( !empty( $legal_compliance ) ) {
+			$custom_content[] = [
+				'label'	=> 'Legal Compliance',
+				'text'  => sprintf( '<p class="rteBlock">%s</p>', $legal_compliance )
 			];
 		}
 
