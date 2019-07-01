@@ -29,7 +29,7 @@
 
     <header class="modal-header">Premium Website Add-ons</header>
 
-    <div class="modal-content">    
+    <div class="modal-content">
       <?php if ( function_exists( 'get_duda_subscription_addons' ) ) : ?>
         <?php foreach ( get_duda_subscription_addons() as $addon_key => $addon_product_id ) : $product = wc_get_product( $addon_product_id ); ?>
           <div class="single-duda-addon">

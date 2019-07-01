@@ -198,13 +198,20 @@ class Duda {
 	function redirect_to_duda_editor() {
 		if ( $_REQUEST['confirm'] != 'yes')
 			return;
+		
+		$current_user = wp_get_current_user();
+		$exclude_emails = [
+			'nick@nsrealtygroup.com', 'maricardavis@gmail.com', 'jake.coyne@gmail.com', 'homesbylu@gmail.com', 'hello@elizabethfarrington.com', 'avi@cunninghamre.com', 'ali@cunninghamre.com', 'lynne@tcgpartnersinc.com', 'jefflemen@kw.com', 'kimcavalier@kw.com', 'sarahparsons@realtor.com', 'myron@mpotterhomes.com'
+		];
 
-		if ( !wcs_user_has_subscription( get_current_user_id(), DUDA_SUBSCRIPTION_PRODUCT_ID, 'active' ) ) {
+		if ( 
+			!in_array( $current_user->user_email, $exclude_emails ) && 
+			!wcs_user_has_subscription( get_current_user_id(), DUDA_SUBSCRIPTION_PRODUCT_ID, 'active' ) 
+		) {
 			wp_redirect( home_url( '/websitebuilder' ) );
 			exit;
 		}
 		
-		$current_user = wp_get_current_user();
 		$response = $this->curl_request( sprintf( '/accounts/sso/%s/link', $current_user->user_email ) );
 
 		if ( is_wp_error( $response ) || !array_key_exists( 'url', $response ) ) {
