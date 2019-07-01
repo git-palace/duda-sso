@@ -200,9 +200,7 @@ class Duda {
 			return;
 		
 		$current_user = wp_get_current_user();
-		$exclude_emails = [
-			'nick@nsrealtygroup.com', 'maricardavis@gmail.com', 'jake.coyne@gmail.com', 'homesbylu@gmail.com', 'hello@elizabethfarrington.com', 'avi@cunninghamre.com', 'ali@cunninghamre.com', 'lynne@tcgpartnersinc.com', 'jefflemen@kw.com', 'kimcavalier@kw.com', 'sarahparsons@realtor.com', 'myron@mpotterhomes.com'
-		];
+		$exclude_emails = [ 'maricardavis@gmail.com', 'homesbylu@gmail.com', 'hello@elizabethfarrington.com', 'kimcavalier@kw.com' ];
 
 		if ( 
 			!in_array( $current_user->user_email, $exclude_emails ) && 
