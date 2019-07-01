@@ -14,6 +14,7 @@ if ( !is_plugin_active( 'wp-erp/wp-erp.php' ) || !is_plugin_active( 'wp-erp-shor
 }
 
 define( 'DUDA_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'DUDA_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 require_once( 'config.php' );
 

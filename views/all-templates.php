@@ -8,6 +8,7 @@
     <div class="single-template">
       <div class="thumbnail">
         <div>
+          <?php $template['thumbnail_url'] = DUDA_PLUGIN_URL . 'assets/images/template_screenshot.png'; ?>
           <img class="card-img-top" src="<?php esc_attr_e( $template['thumbnail_url'] ) ?>" alt="<?php esc_attr_e( $template['template_name'] ) ?>">        
         </div>
       </div>
