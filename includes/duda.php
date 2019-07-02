@@ -200,7 +200,7 @@ class Duda {
 			return;
 		
 		$current_user = wp_get_current_user();
-		$exclude_emails = [ 'maricardavis@gmail.com', 'jake.coyne@gmail.com', 'homesbylu@gmail.com', 'kimcavalier@kw.com' ];
+		$exclude_emails = [ 'maricardavis@gmail.com', 'jake.coyne@gmail.com', 'homesbylu@gmail.com', 'kimcavalier@kw.com', 'nickshepherdre@gmail.com', 'sarahparsons@realtor.com', 'myron@mpotterhomes.com' ];
 
 		if ( 
 			!in_array( $current_user->user_email, $exclude_emails ) && 
